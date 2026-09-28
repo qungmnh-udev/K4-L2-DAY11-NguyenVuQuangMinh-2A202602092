@@ -3,9 +3,21 @@
 Đọc `docs/10-svm360-reading-vi.md` trước khi trả lời câu 1–2. Các câu về zone, `why`, rework, parking và sampling
 đã nằm trong file tương ứng nên không hỏi lại ở đây.
 
-1. Một vật ở vùng seam giữa hai camera thật xuất hiện với hai box khác nhau: đó là lỗi `DUPLICATE` hay cần một quy
-   tắc riêng? Vì sao? TODO
-2. Một vật đi qua nhiều frame trên cùng camera: khi nào giữ cùng track ID, khi nào thêm keyframe hoặc trạng thái
-   Outside? Nêu bằng chứng sẽ cần trước khi nối track qua hai camera. TODO
-3. Nhìn lại cả buổi: một chỗ bạn tin nhãn mình đúng nhưng reference hoặc người soát nghĩ khác (dẫn frame/`object_ref`),
-   bạn đã xử lý thế nào, và nếu làm lại slice này bạn sẽ đổi gì trong cách làm? TODO
+1. Một vật ở vùng seam giữa hai camera thật xuất hiện với hai box khác nhau: đó là lỗi `DUPLICATE` hay cần một quy tắc riêng? Vì sao?
+   - **Không phải lỗi `DUPLICATE` mà bắt buộc cần một quy tắc riêng (Cross-Camera Seam Policy).**
+   - *Vì sao:* Vùng seam là vùng chồng lấn quang học (optical overlap) giữa hai trường nhìn của hai cảm biến vật lý độc lập (ví dụ camera trước và camera hông). Khi một vật thể nằm trong vùng chồng lấn này, cả hai camera đều thu được ánh sáng từ vật thể theo hai góc phối cảnh quang học hoàn toàn khác nhau. Ở tầng camera 2D cục bộ, việc mỗi camera có một bounding box tương ứng bám sát phần vật thể nhìn thấy trong trường nhìn đó và gán nhãn `truncated="true"` là hoàn toàn chuẩn xác và trung thực về mặt quang học.
+   - Nếu vội vàng coi đây là lỗi `DUPLICATE` rồi xóa bỏ box ở một camera, thuật toán object detection của camera đó sẽ mất dữ liệu huấn luyện và tạo ra điểm mù nguy hiểm (False Negative). Ngược lại, nếu ghép gộp tùy tiện khi chưa đối soát hình học, hệ thống sẽ gây nhiễu vị trí 3D. Do đó, cần quy tắc riêng: giữ nguyên hai box ở mức camera 2D, và chỉ thực hiện liên kết track/hợp nhất thực thể ở tầng Fusion 360 BEV sau khi đã xác nhận tính nhất quán về thời gian và không gian hiệu chuẩn.
+
+2. Một vật đi qua nhiều frame trên cùng camera: khi nào giữ cùng track ID, khi nào thêm keyframe hoặc trạng thái Outside? Nêu bằng chứng sẽ cần trước khi nối track qua hai camera.
+   - *Khi nào giữ cùng track ID:* Giữ cùng track ID khi đối tượng tiếp tục tồn tại và di chuyển liên tục trong trường nhìn của camera qua các frame kế tiếp, dù có bị thay đổi kích thước, góc quay hoặc bị che khuất tạm thời (occluded) nhưng vẫn giữ được tính nhất quán về quỹ đạo và diện mạo (appearance consistency).
+   - *Khi nào thêm keyframe:* Thêm keyframe khi đối tượng có sự biến đổi đột ngột về hình học (ví dụ: chuyển từ trạng thái đi thẳng sang quay ngang vuông góc, hoặc chuyển từ vùng trung tâm ít méo sang vùng mép thấu kính fisheye cong gắt khiến tỷ lệ box thay đổi phi tuyến tính), hoặc khi có sự thay đổi về thuộc tính (ví dụ từ `occluded="false"` sang `occluded="true"`).
+   - *Khi nào gán trạng thái Outside:* Gán trạng thái `Outside` ngay tại frame đầu tiên mà đối tượng hoàn toàn rời khỏi trường nhìn của thấu kính (vượt ra ngoài đường tròn `lens_border`), hoặc bị che khuất hoàn toàn $100\%$ phía sau công trình/phương tiện lớn khác trong nhiều frame liên tiếp.
+   - *Bằng chứng cần thiết trước khi nối track qua hai camera:*
+     1. Bằng chứng đồng bộ thời gian tuyệt đối (Hardware Triggered Timestamp): Sai số thời gian giữa hai camera $\le 5\text{ ms}$.
+     2. Bằng chứng hình học không gian (Extrinsic Calibration Consistency): Vector vị trí 3D và vector vận tốc của vật thể khi rời camera thứ nhất phải khớp nối liền mạch với vị trí và hướng di chuyển của vật thể khi xuất hiện ở camera thứ hai trên hệ trục tọa độ xe (Ego Vehicle Coordinate System).
+     3. Bằng chứng diện mạo/đặc trưng (Visual Re-ID Feature Consistency): Đặc trưng màu sắc, kích thước vật lý và chủng loại phương tiện phải tương thích giữa hai góc nhìn.
+
+3. Nhìn lại cả buổi: một chỗ bạn tin nhãn mình đúng nhưng reference hoặc người soát nghĩ khác (dẫn frame/`object_ref`), bạn đã xử lý thế nào, và nếu làm lại slice này bạn sẽ đổi gì trong cách làm?
+   - *Trường hợp thực tế:* Tại frame `adasind_258420.jpg`, đối tượng `L10+M6` (chiếc xe ô tô Car tại tọa độ `[547.4, 462.1, 654.4, 535.0]`, zone `mid`, chiều cao $H \approx 45\text{ px}$) bị che khuất khoảng 50% bởi phương tiện phía trước. Tôi (Learner `L10`) và mô hình YOLO26m (`M6`) đều nhận diện và đóng hộp chính xác bao quát cả phần xe, nhưng Teaching Reference `R5` lại bỏ qua hoàn toàn.
+   - *Cách xử lý:* Tôi không vội vàng xóa box để "chạy điểm" theo teaching reference một cách mù quáng, mà tiến hành đối soát đa chiều: kiểm tra kích thước $H \ge 40\text{ px}$ (đạt ngưỡng Rule R01), kiểm tra tính khả kiến cấu trúc xe (đèn, gương, thân xe rõ nét), và đối chiếu với detection độc lập của Model YOLO26m. Tôi đã ghi nhận ca này vào `findings.csv` với phân loại `E0_reference_defect`, viết giải trình minh bạch trong `10_error_card.md`, mở ticket leo thang `30_escalation_ticket.md`, lưu quyết định `DEC-04` trạng thái `escalated` trong `40_decision_log.csv`, đồng thời đề xuất bản vá `20_guideline_patch.md` (Rule R12).
+   - *Nếu làm lại slice này:* Tôi sẽ chủ động đo đạc tỉ lệ che khuất (occlusion percentage) và ghi chú ngay từ vòng `selfqc.md` trước khi khóa nhãn draft, đồng thời tạo thói quen chụp màn hình bằng chứng crop đối tượng ngay từ đầu để tiết kiệm thời gian khi giải trình kỹ thuật và phối hợp với đội ngũ Data Ops.

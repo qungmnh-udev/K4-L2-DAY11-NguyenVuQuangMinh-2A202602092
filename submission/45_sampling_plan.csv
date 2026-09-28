@@ -1,9 +1,9 @@
 camera_id,slice_type,frames,risk,rationale
-front,normal,,TODO,TODO
-front,hard,,TODO,TODO
-rear,normal,,TODO,TODO
-rear,hard,,TODO,TODO
-left,normal,,TODO,TODO
-left,hard,,TODO,TODO
-right,normal,,TODO,TODO
-right,hard,,TODO,TODO
+front,normal,35,"Chói nắng trực diện (sun glare), đèn pha phương tiện ban đêm, nước mưa/bụi bẩn bám trên bề mặt vòm kính khi xe di chuyển tốc độ cao.","Camera trước phụ trách quan sát tầm xa và phương tiện đối diện; cần tập mẫu chuẩn đủ lớn để thẩm định độ ổn định nhận diện phương tiện và vạch kẻ làn đường tiêu chuẩn."
+front,hard,25,"Phương tiện chuyển làn cắt đầu đột ngột (cut-in), người đi bộ băng cắt sát đầu xe ở vùng rìa thấu kính cực méo, tán cây đổ bóng phức tạp.","Vùng va chạm trực diện nguy hiểm nhất; độ méo fisheye vùng rìa làm biến dạng mạnh tỷ lệ hình học người đi bộ và xe máy, đòi hỏi kiểm định nghiêm ngặt bounding box và ranh giới tiếp đất."
+rear,normal,30,"Đèn pha phương tiện bám đuôi gây lóa ống kính, bụi đất xoáy từ gầm xe bám bẩn bề mặt kính, biến dạng hình học khi lùi thẳng vào vị trí đỗ.","Camera sau hỗ trợ đỗ xe tự động và giám sát điểm mù phía sau; cần 30 frame kiểm tra độ tin cậy trong các kịch bản lùi tiêu chuẩn và ước lượng khoảng cách an toàn."
+rear,hard,20,"Vật cản thấp và trẻ em rơi vào điểm mù góc dưới sát cản sau (low blindspot), chướng ngại vật sát mép thấu kính hướng xuống đất, vạch đỗ bị mờ hoặc trầy xước.","Thấu kính camera lùi hướng xuống đất có nguy cơ bỏ sót vật cản thấp; cần tập trung kiểm định các ca vật thể sát cản xe để ngăn ngừa tai nạn khi lùi."
+left,normal,25,"Ánh sáng hông xe biến thiên đột ngột khi chuyển vùng bóng râm, hiện tượng phản xạ gương chiếu hậu và ánh sáng phản chiếu từ thân xe lân cận.","Camera sườn trái hỗ trợ chuyển làn và căn chỉnh khoảng cách thân xe với ô đỗ; 25 frame chuẩn giúp kiểm soát chất lượng nhận diện vạch ô đỗ và xe song hành."
+left,hard,20,"Biến dạng quang học cực đại tại vùng biên, vùng mí ghép chồng lấn (seam) với camera trước/sau, xe hai bánh luồn lách tốc độ cao ở khoảng cách cực hẹp sát thân xe.","Sườn xe là nơi chịu độ méo phối cảnh lớn nhất khi vật thể tiến sát; cần kiểm định rủi ro vật thể bị đứt gãy hoặc nhân đôi bounding box tại vùng ghép mí camera (seam zone)."
+right,normal,25,"Dòng xe hai bánh di chuyển song song ở lề phải, vỉa hè lộn xộn với cây cối và biển báo tĩnh ven đường gây nhiễu nhận diện.","Đảm bảo độ chính xác nhận diện lề đường, người đi bộ trên vỉa hè và duy trì khoảng cách an toàn với luồng xe hai bánh áp sát sườn phụ."
+right,hard,20,"Người đi bộ hoặc xe máy bất ngờ lao ra từ ngõ khuất khi xe rẽ phải (right-turn blindspot), méo hình cực độ ở góc dưới gương phụ, vạch đỗ bị che khuất bởi rào chắn/bó vỉa.","Tình huống rẽ phải và cặp lề là điểm mù nguy hiểm; độ méo lớn tại mép ngoài đòi hỏi rà soát kỹ lưỡng quy tắc gán nhãn occluded, truncated và ranh giới free-space sát bó vỉa."
