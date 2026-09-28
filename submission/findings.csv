@@ -1,1 +1,28 @@
 round,slice,frame,object_ref,cell,what,why,severity,owner,rule_id,evidence,action,rules_version,note
+r2_qa,B2-edge,adasind_069450.jpg,L4,L_only,ATTRIBUTE,,P2,annotator,R05,ThreeWheeler cham vanh kinh x=4 nhung truncated=false,rework,v1.0.0,QA review peer slice B2-edge
+r2_qa,B2-edge,adasind_082170.jpg,L5,L_only,ATTRIBUTE,,P2,annotator,R05,Bike sat mep trai x=14.5 chua bat truncated,rework,v1.0.0,QA review peer slice B2-edge
+r2_qa,B2-edge,adasind_102750.jpg,L_missing,L_only,MISSING,,P1,annotator,R01,Bo sot Truck do le duong ben trai cao 105px > 40px,rework,v1.0.0,QA review peer slice B2-edge
+r2_qa,B2-edge,adasind_102750.jpg,L3,L_only,BOX_GEOMETRY,,P2,annotator,R02,Box Truck chua phu sat day banh xe tiep xuc mat duong,rework,v1.0.0,QA review peer slice B2-edge
+r1_craft,B4-edge,adasind_258420.jpg,L1,na,SPURIOUS,E1_annotator_error,P1,annotator,R01,L ve box Bike cao duoi 40px,rework,v1.0.0,Self-QC finding
+r1_craft,B4-edge,adasind_258420.jpg,L3,na,SPURIOUS,E1_annotator_error,P1,annotator,R01,L ve nham Pedestrian o khu vuc khuat,rework,v1.0.0,Self-QC finding
+r1_craft,B4-edge,adasind_258420.jpg,L10+R5,na,BOX_GEOMETRY,E2_guideline_gap,P2,guideline,R02,Box L10 lech so voi R5 o hau canh,keep_with_reason,v1.0.0,Boundary discrepancy
+r3_diag,B4-edge,adasind_236370.jpg,M2,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R01,Model nhan nham vat the gia tren nen duong,keep_with_reason,v1.0.0,Model domain shift on fisheye
+r3_diag,B4-edge,adasind_258420.jpg,L2+R4,LR_noM,MISSING,E4_model_domain,P1,ai_team,R04,Model bo sot ThreeWheeler giua duong ma L va R deu bat duoc,keep_with_reason,v1.0.0,Model missed valid ThreeWheeler
+r3_diag,B4-edge,adasind_258420.jpg,L9+R8,LR_noM,MISSING,E4_model_domain,P1,ai_team,R04,Model bo sot phuong tien o mid zone,keep_with_reason,v1.0.0,Model missed in mid zone
+r3_diag,B4-edge,adasind_258420.jpg,L8+R1,LR_noM,MISSING,E4_model_domain,P2,ai_team,R04,Model bo sot vat the o edge zone,keep_with_reason,v1.0.0,Model missed at edge
+r3_diag,B4-edge,adasind_258420.jpg,L1,L_only,SPURIOUS,E1_annotator_error,P1,annotator,R01,L ve box Bike cao duoi 40px hoac nham bong xe,rework,v1.0.0,Annotator spurious box
+r3_diag,B4-edge,adasind_258420.jpg,L3,L_only,SPURIOUS,E1_annotator_error,P1,annotator,R01,L ve nham Pedestrian o khu vuc che khuat,rework,v1.0.0,Annotator spurious pedestrian
+r3_diag,B4-edge,adasind_258420.jpg,L10+M6,LM_noR,SPURIOUS,E0_reference_defect,P1,data_ops,R01,L va M deu phat hien Car hop le o xa nhung Reference bo sot,escalate,v1.0.0,Reference defect suspected
+r3_diag,B4-edge,adasind_258420.jpg,R5,R_only,MISSING,E2_guideline_gap,P2,guideline,R02,Khac biet ranh gioi box giua L10 va R5 o khoang cach xa,keep_with_reason,v1.0.0,Boundary discrepancy on distant object
+r3_diag,B4-edge,adasind_258420.jpg,M4,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R01,Model nhan nham vat o vung meo bien,keep_with_reason,v1.0.0,Fisheye distortion false positive
+r3_diag,B4-edge,adasind_258420.jpg,M5,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R01,Model phat hien nham chi tiet tren le duong,keep_with_reason,v1.0.0,False positive in mid zone
+r3_diag,B4-edge,adasind_258420.jpg,M7,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R01,Model nhan nham bien hieu thanh xe,keep_with_reason,v1.0.0,False positive on background sign
+r3_diag,B4-edge,adasind_258420.jpg,M8,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R01,Model tao box ao o mat duong,keep_with_reason,v1.0.0,Road artifact false positive
+r3_diag,B4-edge,adasind_258420.jpg,M10,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R01,Model nhan nham cum vat the bi che,keep_with_reason,v1.0.0,Occlusion false positive
+r3_diag,B4-edge,adasind_258420.jpg,M11,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R01,Model nhan dien nham bong xe thanh xe,keep_with_reason,v1.0.0,Shadow false positive
+r3_diag,B4-edge,adasind_310008.jpg,L1+R1,LR_noM,MISSING,E4_model_domain,P1,ai_team,R04,Model bo sot ThreeWheeler tren duong de nguoc sang,keep_with_reason,v1.0.0,Backlit ThreeWheeler missed by model
+r3_diag,B4-edge,adasind_310008.jpg,M6,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R01,Model nhan nham cot dien ven duong thanh nguoi,keep_with_reason,v1.0.0,Pole false positive
+r3_diag,B4-edge,adasind_310008.jpg,M7,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R01,Model nhan nham cay ven ruong,keep_with_reason,v1.0.0,Vegetation false positive
+calib,C0,adasind_019560.jpg,R4,na,MISSING,E1_annotator_error,P1,annotator,R04,Sot xe ThreeWheeler do truoc quan,rework,v1.0.0,Calibration finding
+calib,C0,adasind_019560.jpg,R5,na,MISSING,E1_annotator_error,P1,annotator,R03,Sot xe dap dung ben phai quan,rework,v1.0.0,Calibration finding
+calib,C0,adasind_019560.jpg,R6,na,MISSING,E1_annotator_error,P1,annotator,R01,Sot nguoi di bo dung canh xe,rework,v1.0.0,Calibration finding

@@ -1,0 +1,24 @@
+{
+  "members": [
+    "minh",
+    "quan",
+    "thach"
+  ],
+  "assignments": {
+    "minh": "B4-edge",
+    "quan": "B2-edge",
+    "thach": "B3-edge"
+  },
+  "self": "minh",
+  "slice": "B4-edge",
+  "degrade": [],
+  "current_slice": "B4-edge",
+  "support_prefill": false,
+  "support_slice": "",
+  "prefill_box_ids": [
+    "adasind_236370.jpg:1",
+    "adasind_236370.jpg:2",
+    "adasind_236370.jpg:3",
+    "adasind_236370.jpg:4"
+  ]
+}
